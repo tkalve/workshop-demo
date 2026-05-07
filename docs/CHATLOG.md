@@ -32,6 +32,15 @@ Created implementation plan and built the full app:
 
 ---
 
-**User:** Create a docs/CHATLOG.md and add our conversation so far.
+**User:** Analyze this codebase and create a `.github/copilot-instructions.md` file.
 
-**Copilot:** Created this file.
+**Copilot:** Created `.github/copilot-instructions.md` covering architecture, SignalR contract sync rule, build/test/lint commands (incl. single-test), TypeScript strict conventions (`no enum`, `import type`), component folder/barrel pattern, and CORS wiring.
+
+---
+
+**User:** Add instructions on how to update `docs/CHATLOG.md`, and update the chat log.
+
+**Copilot:** Added a "Chat Log" section to `copilot-instructions.md` describing the format and what warrants an entry. Updated this file.
+
+---
+

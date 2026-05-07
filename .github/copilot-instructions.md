@@ -65,3 +65,17 @@ All user state (nick ↔ connectionId mapping, join time) lives in `UserRegistry
 
 ### CORS
 Allowed origins are configured via `appsettings.json` (`AllowedOrigins` array). In production, this is set via the `AllowedOrigins__0` environment variable in the Container App (see `infra/modules/container-app/main.tf`).
+
+## Chat Log
+
+`docs/CHATLOG.md` tracks notable decisions and changes made during Copilot sessions. When making non-trivial changes, append an entry in this format:
+
+```markdown
+**User:** <what was asked>
+
+**Copilot:** <what was done / decided>
+
+---
+```
+
+Keep entries brief — one or two sentences each. Focus on decisions that affect architecture, conventions, or configuration (not routine edits).
