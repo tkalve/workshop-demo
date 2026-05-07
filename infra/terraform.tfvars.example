@@ -1,0 +1,8 @@
+# terraform.tfvars example — copy to terraform.tfvars and fill in your values
+# terraform.tfvars is gitignored
+
+subscription_id = "00000000-0000-0000-0000-000000000000"
+app_name        = "waffle"
+environment     = "dev"
+location        = "westeurope"
+image_tag       = "latest"
