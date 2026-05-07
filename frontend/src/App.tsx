@@ -4,7 +4,7 @@ import { ChatPage } from './pages/Chat';
 import './styles/main.scss';
 
 type AppState =
-  | { screen: 'join' }
+  | { screen: 'join'; error?: string }
   | { screen: 'chat'; nick: string };
 
 export default function App() {
@@ -14,6 +14,7 @@ export default function App() {
     return (
       <JoinPage
         onJoin={(nick) => setState({ screen: 'chat', nick })}
+        error={state.error}
       />
     );
   }
@@ -22,6 +23,7 @@ export default function App() {
     <ChatPage
       nick={state.nick}
       onNickChange={(nick) => setState({ screen: 'chat', nick })}
+      onJoinFailed={(error) => setState({ screen: 'join', error })}
     />
   );
 }

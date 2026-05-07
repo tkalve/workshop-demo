@@ -10,17 +10,19 @@ import { MessageKind } from '../../types';
 interface ChatPageProps {
   nick: string;
   onNickChange: (nick: string) => void;
+  onJoinFailed: (error: string) => void;
 }
 
-export function ChatPage({ nick, onNickChange }: ChatPageProps) {
+export function ChatPage({ nick, onNickChange, onJoinFailed }: ChatPageProps) {
   const [messages, setMessages] = useState<MessageDto[]>([]);
   const [users, setUsers] = useState<string[]>([]);
   const [currentNick, setCurrentNick] = useState(nick);
+  const [joined, setJoined] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
-  // Tracks the nick to use when (re-)joining after a connection is established.
-  // Updated whenever currentNick changes so reconnects use the latest nick.
   const joinNickRef = useRef(nick);
   useEffect(() => { joinNickRef.current = currentNick; }, [currentNick]);
+  // Use a ref so the onError callback always sees the latest joined value.
+  const joinedRef = useRef(false);
 
   function addSystemMessage(text: string) {
     setMessages((prev) => [
@@ -49,14 +51,21 @@ export function ChatPage({ nick, onNickChange }: ChatPageProps) {
     }, [onNickChange]),
     onUserList: useCallback((nicks: string[]) => {
       setUsers(nicks);
+      setJoined(true);
+      joinedRef.current = true;
     }, []),
     onWhoIsResult: useCallback((info: UserInfoDto) => {
       const joined = new Date(info.joinedAt).toLocaleString();
       addSystemMessage(`${info.nick} joined at ${joined}`);
     }, []),
     onError: useCallback((msg: string) => {
-      addSystemMessage(`⚠️ ${msg}`);
-    }, []),
+      if (!joinedRef.current) {
+        // Error before join was confirmed → bounce back to join screen.
+        onJoinFailed(msg);
+      } else {
+        addSystemMessage(`⚠️ ${msg}`);
+      }
+    }, [onJoinFailed]),
   });
 
   useEffect(() => {
@@ -89,6 +98,15 @@ export function ChatPage({ nick, onNickChange }: ChatPageProps) {
         addSystemMessage(`Unknown command: /${parsed.command}`);
         break;
     }
+  }
+
+  if (!joined) {
+    return (
+      <div className="chat-connecting">
+        <img src="/logo.png" alt="Waffle" className="chat-connecting__logo" />
+        <p>Joining as <strong>{nick}</strong>…</p>
+      </div>
+    );
   }
 
   return (
