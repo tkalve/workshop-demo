@@ -17,6 +17,10 @@ export function ChatPage({ nick, onNickChange }: ChatPageProps) {
   const [users, setUsers] = useState<string[]>([]);
   const [currentNick, setCurrentNick] = useState(nick);
   const feedRef = useRef<HTMLDivElement>(null);
+  // Tracks the nick to use when (re-)joining after a connection is established.
+  // Updated whenever currentNick changes so reconnects use the latest nick.
+  const joinNickRef = useRef(nick);
+  useEffect(() => { joinNickRef.current = currentNick; }, [currentNick]);
 
   function addSystemMessage(text: string) {
     setMessages((prev) => [
@@ -56,8 +60,8 @@ export function ChatPage({ nick, onNickChange }: ChatPageProps) {
   });
 
   useEffect(() => {
-    if (connected) joinRoom(nick);
-  }, [connected, joinRoom, nick]);
+    if (connected) joinRoom(joinNickRef.current);
+  }, [connected, joinRoom]);
 
   useEffect(() => {
     const feed = feedRef.current;
