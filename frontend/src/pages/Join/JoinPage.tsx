@@ -25,7 +25,8 @@ export function JoinPage({ onJoin, error }: JoinPageProps) {
   return (
     <div className="join-page">
       <div className="join-card">
-        <h1>🧇 Waffle</h1>
+        <img src="/logo.png" alt="Waffle" className="join-card__logo" />
+        <h1>Waffle</h1>
         <p className="join-tagline">Pick a nickname to start chatting</p>
         <form onSubmit={handleSubmit} className="join-form">
           <input

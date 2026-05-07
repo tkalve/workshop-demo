@@ -94,21 +94,28 @@ export function ChatPage({ nick, onNickChange }: ChatPageProps) {
   return (
     <div className="chat-page">
       <header className="chat-header">
-        <span className="chat-header__logo">🧇 Waffle</span>
+        <div className="chat-header__brand">
+          <img src="/logo.png" alt="Waffle" className="chat-header__logo" />
+          <span className="chat-header__name">Waffle</span>
+        </div>
         <span className="chat-header__nick">
           <span className={`chat-header__dot ${connected ? 'chat-header__dot--online' : ''}`} />
           {currentNick}
         </span>
       </header>
       <div className="chat-body">
-        <div className="chat-feed" ref={feedRef}>
-          {messages.map((msg, i) => (
-            <ChatMessage key={i} message={msg} />
-          ))}
+        <div className="chat-center">
+          <div className="chat-feed" ref={feedRef}>
+            {messages.map((msg, i) => (
+              <ChatMessage key={i} message={msg} />
+            ))}
+          </div>
+          <UserList nicks={users} currentNick={currentNick} />
         </div>
-        <UserList nicks={users} currentNick={currentNick} />
       </div>
-      <MessageInput onSend={handleSend} disabled={!connected} />
+      <div className="chat-input-bar">
+        <MessageInput onSend={handleSend} disabled={!connected} />
+      </div>
     </div>
   );
 }
