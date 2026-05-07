@@ -37,7 +37,7 @@ A real-time, browser-based chat app. Pick a nickname and start chatting — no a
 ```bash
 cd backend
 dotnet run --project src/Waffle.Api
-# Runs on http://localhost:5062
+# Runs on http://localhost:5227
 ```
 
 ### Frontend
